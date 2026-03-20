@@ -1,0 +1,43 @@
+
+LSTM JUSTIFICATION — For Dissertation Methodology Section
+==========================================================
+
+This study employs four machine learning models: Logistic Regression 
+(linear baseline), Random Forest, XGBoost, and LightGBM (gradient 
+boosting methods). Long Short-Term Memory (LSTM) neural networks were 
+considered but not included for the following methodological reasons:
+
+1. TABULAR VS SEQUENTIAL DATA: Our prediction problem is structured 
+   as tabular classification — each observation is a country-quarter 
+   characterised by 67 features. LSTMs are designed for sequential 
+   prediction where temporal ordering within the input is essential 
+   (e.g., language modelling, speech recognition). Our temporal 
+   dynamics are already captured through explicit lag features, 
+   momentum variables, and rolling volatility measures.
+
+2. EMPIRICAL EVIDENCE: Recent benchmark studies have conclusively 
+   shown that tree-based models outperform deep learning on tabular 
+   data. Grinsztajn et al. (2022, NeurIPS) demonstrate this across 
+   45 datasets. Shwartz-Ziv and Armon (2022) confirm the finding 
+   specifically for XGBoost and LightGBM vs neural architectures.
+
+3. INTERPRETABILITY: Tree-based models support exact SHAP values 
+   via TreeSHAP (Lundberg et al., 2020), enabling the feature 
+   importance and dependence analysis central to our policy 
+   contribution. Neural network SHAP requires approximate methods 
+   with higher computational cost and lower reliability.
+
+4. SAMPLE SIZE: With 7,162 training observations (country-quarters), 
+   our dataset is modest by deep learning standards. Tree-based 
+   models are more data-efficient and less prone to overfitting 
+   on samples of this size.
+
+References:
+- Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why do 
+  tree-based models still outperform deep learning on typical 
+  tabular data? NeurIPS 2022.
+- Shwartz-Ziv, R., & Armon, A. (2022). Tabular data: Deep learning 
+  is not all you need. Information Fusion, 81, 84-90.
+- Lundberg, S.M., et al. (2020). From local explanations to global 
+  understanding with explainable AI for trees. Nature Machine 
+  Intelligence, 2(1), 56-67.

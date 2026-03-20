@@ -1,0 +1,19 @@
+# Data (too large for git)
+data/raw/*.xlsx
+data/processed/*.csv
+
+# Models (binary files)
+outputs/models/*.joblib
+
+# Python
+__pycache__/
+*.pyc
+.DS_Store
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db

@@ -1,0 +1,25 @@
+Group,Variable,N,Mean,Median,Std,Min,Max
+Advanced economies,Headline CPI,979,2.39,2.07,2.44,-4.48,19.71
+Advanced economies,Food CPI,895,2.92,2.16,3.75,-4.7,34.36
+Advanced economies,Energy CPI,852,4.51,2.81,9.74,-22.06,149.1
+Advanced economies,GDP deflator,969,2.47,2.07,2.72,-11.08,21.9
+Advanced economies,Govt debt/GDP,977,62.86,52.74,43.29,0.05,258.37
+Advanced economies,Fiscal balance,995,-1.4,-1.53,5.25,-37.59,26.99
+Advanced economies,Ext.debt/GDP,815,339.86,145.04,773.4,16.52,6596.14
+Advanced economies,Credit/GDP,949,153.83,152.7,77.97,13.05,482.3
+EMDEs,Headline CPI,3817,36.48,4.42,1141.06,-72.73,65374.08
+EMDEs,Food CPI,3110,33.65,5.27,782.64,-32.49,38386.0
+EMDEs,Energy CPI,2794,48.54,4.04,1824.45,-37.3,94802.37
+EMDEs,GDP deflator,3804,32.69,4.8,1109.2,-100.0,65374.08
+EMDEs,Govt debt/GDP,3704,53.73,44.3,44.93,0.0,600.12
+EMDEs,Fiscal balance,3782,-2.07,-2.49,7.14,-55.75,125.14
+EMDEs,Ext.debt/GDP,3171,52.91,41.43,46.35,1.09,508.8
+EMDEs,Credit/GDP,3507,36.32,27.97,30.82,0.0,198.1
+All,Headline CPI,4796,29.52,3.63,1018.02,-72.73,65374.08
+All,Food CPI,4005,26.78,4.24,689.76,-32.49,38386.0
+All,Energy CPI,3646,38.25,3.67,1597.17,-37.3,94802.37
+All,GDP deflator,4773,26.55,3.87,990.28,-100.0,65374.08
+All,Govt debt/GDP,4681,55.63,45.92,44.74,0.0,600.12
+All,Fiscal balance,4777,-1.93,-2.33,6.79,-55.75,125.14
+All,Ext.debt/GDP,3986,111.58,50.89,370.52,1.09,6596.14
+All,Credit/GDP,4456,61.35,38.81,66.0,0.0,482.3

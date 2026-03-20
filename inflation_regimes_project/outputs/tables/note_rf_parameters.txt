@@ -1,0 +1,14 @@
+
+RF PARAMETER NOTE (for dissertation methodology section):
+Random Forest parameters (n_estimators=500, max_depth=12, min_samples_leaf=20)
+are set conservatively following Breiman (2001) recommendations:
+- n_estimators=500: Sufficient for convergence (Breiman shows diminishing 
+  returns beyond ~300 trees for most datasets)
+- max_depth=12: Moderate depth prevents overfitting while capturing 
+  non-linear interactions
+- min_samples_leaf=20: Conservative minimum prevents fitting to noise
+- max_features='sqrt': Standard recommendation for classification
+
+These settings are robust to moderate variation. RF is included as a 
+baseline comparison model; the primary models (XGBoost, LightGBM) use 
+data-driven hyperparameters via TimeSeriesSplit cross-validation.

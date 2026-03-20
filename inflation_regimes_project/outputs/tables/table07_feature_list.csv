@@ -1,0 +1,62 @@
+feature,group,pct_non_null
+ccpi_yoy,inflation,65.74977817213842
+component_disp_m,inflation,100.0
+component_disp_m_lag1,inflation,99.9919335323062
+component_disp_m_lag2,inflation,99.9919335323062
+ecpi_6m_vol,inflation,100.0
+ecpi_mom_change,inflation,100.0
+ecpi_yoy,inflation,100.0
+ecpi_yoy_2q_change,inflation,99.9919335323062
+ecpi_yoy_lag1,inflation,99.9919335323062
+ecpi_yoy_lag2,inflation,99.9919335323062
+fcpi_6m_vol,inflation,100.0
+fcpi_mom_change,inflation,100.0
+fcpi_yoy,inflation,100.0
+fcpi_yoy_2q_change,inflation,99.9919335323062
+fcpi_yoy_lag1,inflation,99.9919335323062
+fcpi_yoy_lag2,inflation,99.9919335323062
+food_energy_gap_m,inflation,100.0
+hcpi_12m_vol,inflation,99.9758005969186
+hcpi_12m_vol_lag1,inflation,99.91933532306203
+hcpi_12m_vol_lag2,inflation,99.33854964910866
+hcpi_6m_vol,inflation,100.0
+hcpi_mom_change,inflation,100.0
+hcpi_yoy,inflation,100.0
+hcpi_yoy_2q_change,inflation,100.0
+hcpi_yoy_lag1,inflation,100.0
+hcpi_yoy_lag2,inflation,100.0
+headline_energy_gap,inflation,100.0
+headline_food_gap,inflation,100.0
+ppi_yoy,inflation,62.47479228845688
+energy_index,commodity,100.0
+energy_index_12m_chg,commodity,100.0
+energy_index_3m_chg,commodity,100.0
+energy_index_6m_vol,commodity,100.0
+fertiliser_index,commodity,100.0
+fertiliser_index_12m_chg,commodity,100.0
+food_commodity_index,commodity,100.0
+food_commodity_index_12m_chg,commodity,100.0
+food_commodity_index_3m_chg,commodity,100.0
+food_commodity_index_6m_vol,commodity,100.0
+metals_index,commodity,100.0
+metals_index_12m_chg,commodity,100.0
+oil_price,commodity,100.0
+oil_price_12m_chg,commodity,100.0
+oil_price_6m_vol,commodity,100.0
+concessional_share,fiscal,39.25143179801565
+debt_gdp,fiscal,86.83552472372348
+ext_debt_gdp,fiscal,72.66274098572235
+fiscal_balance,fiscal,88.44075179478907
+primary_balance,fiscal,87.19044930225056
+private_credit_gdp,fiscal,86.13374203436315
+sovereign_rating,fiscal,78.96265225457772
+st_debt_reserves,fiscal,69.75074614826168
+income_encoded,country,88.27942244091312
+is_emde,country,88.61014761635879
+region_East Asia and Pacific,country,100.0
+region_Europe and Central Asia,country,100.0
+region_Latin America and the Caribbean,country,100.0
+"region_Middle East, North Africa, Afghanistan and Pakistan",country,100.0
+region_North America,country,100.0
+region_South Asia,country,100.0
+region_Sub-Saharan Africa,country,100.0

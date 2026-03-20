@@ -1,0 +1,5 @@
+Method,K,ARI vs GMM,Note
+GMM (primary),6,1.0,Primary method (BIC-selected)
+HMM,6,0.687,Captures temporal persistence
+K-Means + DTW,6,0.257,Non-parametric distance
+K-Means (standard),6,0.256,Simple baseline

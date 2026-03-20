@@ -1,0 +1,13 @@
+Horizon,Model,AUC-ROC,CI Lower (95%),CI Upper (95%),CI Width
+1Q ahead,Logistic Regression,0.7253,0.6989,0.75,0.0511
+1Q ahead,Random Forest,0.8203,0.7962,0.8443,0.0481
+1Q ahead,XGBoost,0.8387,0.816,0.8605,0.0445
+1Q ahead,LightGBM,0.836,0.8134,0.8577,0.0443
+2Q ahead,Logistic Regression,0.7391,0.7126,0.7638,0.0512
+2Q ahead,Random Forest,0.7986,0.7759,0.8204,0.0444
+2Q ahead,XGBoost,0.813,0.7912,0.8348,0.0436
+2Q ahead,LightGBM,0.8129,0.7915,0.8341,0.0425
+4Q ahead,Logistic Regression,0.7155,0.6869,0.7423,0.0555
+4Q ahead,Random Forest,0.7791,0.7544,0.802,0.0475
+4Q ahead,XGBoost,0.7763,0.7514,0.799,0.0476
+4Q ahead,LightGBM,0.7729,0.748,0.7958,0.0478

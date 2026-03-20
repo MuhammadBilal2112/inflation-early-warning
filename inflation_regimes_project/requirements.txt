@@ -1,0 +1,32 @@
+# Inflation Regime Early Warning System
+# Python 3.12+ required
+#
+# Install: pip3 install -r requirements.txt
+
+# Core data
+numpy>=1.26
+pandas>=2.2
+
+# Machine Learning
+scikit-learn>=1.4
+xgboost>=2.0
+lightgbm>=4.0
+shap>=0.50
+hmmlearn>=0.3
+tslearn>=0.6
+
+# Visualisation
+matplotlib>=3.8
+seaborn>=0.13
+plotly>=5.18
+
+# Geospatial (for world maps)
+geopandas>=0.14
+
+# Statistical
+statsmodels>=0.14
+scipy>=1.12
+
+# Utilities
+joblib>=1.3
+openpyxl>=3.1

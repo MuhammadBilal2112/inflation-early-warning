@@ -1,0 +1,68 @@
+feature,mean_abs_shap,group
+regime,1.5147636,Regime state
+regime_prob_5,0.23122603,Regime state
+energy_index_3m_chg,0.22624494,Commodity
+regime_prob_2,0.19861373,Regime state
+regime_prob_3,0.15620552,Regime state
+food_commodity_index_3m_chg,0.120912746,Commodity
+hcpi_yoy,0.11855978,Inflation
+fcpi_yoy_2q_change,0.11721738,Inflation
+ecpi_mom_change,0.11442329,Inflation
+energy_index_6m_vol,0.11298578,Commodity
+hcpi_12m_vol_lag2,0.1098487,Inflation
+regime_prob_1,0.09519988,Regime state
+oil_price_12m_chg,0.0947976,Commodity
+hcpi_mom_change,0.08583733,Inflation
+ecpi_6m_vol,0.07896404,Inflation
+hcpi_12m_vol_lag1,0.076842695,Inflation
+fcpi_6m_vol,0.075974785,Inflation
+st_debt_reserves,0.07497973,Fiscal
+regime_prob_0,0.073987514,Regime state
+hcpi_12m_vol,0.06519904,Inflation
+hcpi_6m_vol,0.06494362,Inflation
+primary_balance,0.062498838,Fiscal
+food_commodity_index_12m_chg,0.060209773,Commodity
+ecpi_yoy_2q_change,0.059123073,Inflation
+component_disp_m_lag2,0.05825416,Inflation
+fcpi_mom_change,0.057458907,Inflation
+ecpi_yoy,0.055795357,Inflation
+private_credit_gdp,0.055374235,Fiscal
+metals_index_12m_chg,0.054424915,Commodity
+ppi_yoy,0.052939832,Inflation
+ecpi_yoy_lag2,0.052096073,Inflation
+fcpi_yoy_lag2,0.051952917,Inflation
+component_disp_m,0.05063521,Inflation
+regime_prob_4,0.049776517,Regime state
+debt_gdp,0.0494062,Fiscal
+food_commodity_index,0.046539485,Commodity
+ccpi_yoy,0.045270346,Inflation
+energy_index_12m_chg,0.044813883,Commodity
+sovereign_rating,0.04345016,Fiscal
+component_disp_m_lag1,0.04341619,Inflation
+fertiliser_index,0.040949974,Commodity
+fiscal_balance,0.040204976,Fiscal
+hcpi_yoy_2q_change,0.03932391,Inflation
+ext_debt_gdp,0.038759355,Fiscal
+headline_food_gap,0.03822233,Inflation
+energy_index,0.037785884,Commodity
+ecpi_yoy_lag1,0.036176853,Inflation
+metals_index,0.034783363,Commodity
+fcpi_yoy,0.034039643,Inflation
+food_energy_gap_m,0.031020412,Inflation
+oil_price_6m_vol,0.028943302,Commodity
+food_commodity_index_6m_vol,0.028571747,Commodity
+fertiliser_index_12m_chg,0.026510373,Commodity
+region_Middle_East__North_Africa__Afghanistan_and_Pakistan,0.026375605,Country
+hcpi_yoy_lag2,0.024798414,Inflation
+oil_price,0.023398945,Commodity
+headline_energy_gap,0.022966135,Inflation
+fcpi_yoy_lag1,0.020833801,Inflation
+hcpi_yoy_lag1,0.020719027,Inflation
+income_encoded,0.019206678,Country
+region_Sub_Saharan_Africa,0.010121069,Country
+region_East_Asia_and_Pacific,0.009718065,Country
+region_Europe_and_Central_Asia,0.007817369,Country
+region_Latin_America_and_the_Caribbean,0.0025588765,Country
+is_emde,0.0024289966,Country
+region_South_Asia,0.0015442875,Country
+region_North_America,0.00078256766,Country

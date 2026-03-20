@@ -1,0 +1,36 @@
+Country,Transition date,Max P(trans) before,Flagged (>0.3)
+United Kingdom,2020-Qq,0.814,Yes
+United Kingdom,2021-Qq,0.878,Yes
+United Kingdom,2021-Qq,0.928,Yes
+United Kingdom,2021-Qq,0.887,Yes
+United Kingdom,2021-Qq,0.678,Yes
+United Kingdom,2022-Qq,0.018,No
+United Kingdom,2023-Qq,0.018,No
+United States,2019-Qq,0.77,Yes
+United States,2020-Qq,0.013,No
+United States,2020-Qq,0.709,Yes
+United States,2022-Qq,0.018,No
+United States,2023-Qq,0.049,No
+United States,2024-Qq,0.854,Yes
+Turkey,2020-Qq,0.016,No
+Turkey,2021-Qq,0.051,No
+Turkey,2021-Qq,0.194,No
+Brazil,2019-Qq,0.699,Yes
+Brazil,2020-Qq,0.751,Yes
+Brazil,2020-Qq,0.618,Yes
+Brazil,2020-Qq,0.355,Yes
+Brazil,2021-Qq,0.158,No
+Brazil,2022-Qq,0.044,No
+Brazil,2023-Qq,0.019,No
+Brazil,2023-Qq,0.028,No
+Brazil,2024-Qq,0.022,No
+Germany,2019-Qq,0.08,No
+Germany,2020-Qq,0.384,Yes
+Germany,2020-Qq,0.721,Yes
+Germany,2021-Qq,0.885,Yes
+Germany,2022-Qq,0.039,No
+Germany,2022-Qq,0.02,No
+Nigeria,2021-Qq,0.851,Yes
+Nigeria,2021-Qq,0.825,Yes
+Nigeria,2022-Qq,0.032,No
+Nigeria,2022-Qq,0.618,Yes

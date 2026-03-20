@@ -1,0 +1,25 @@
+Horizon,Model,Period,AUC-ROC,TPR@5%FPR,TPR@10%FPR,N,Pos Rate
+1Q ahead,Logistic Regression,COVID,0.7106,0.2027,0.2793,1063,0.209
+1Q ahead,Logistic Regression,Ukraine,0.7299,0.1122,0.2398,1989,0.197
+1Q ahead,Random Forest,COVID,0.6929,0.1261,0.2568,1063,0.209
+1Q ahead,Random Forest,Ukraine,0.7405,0.2526,0.3801,1989,0.197
+1Q ahead,Xgboost,COVID,0.6888,0.1396,0.2387,1063,0.209
+1Q ahead,Xgboost,Ukraine,0.7568,0.2526,0.3827,1989,0.197
+1Q ahead,Lightgbm,COVID,0.7014,0.1667,0.2883,1063,0.209
+1Q ahead,Lightgbm,Ukraine,0.7667,0.2449,0.3878,1989,0.197
+2Q ahead,Logistic Regression,COVID,0.7523,0.3191,0.4134,1062,0.31
+2Q ahead,Logistic Regression,Ukraine,0.7451,0.1567,0.3095,1855,0.272
+2Q ahead,Random Forest,COVID,0.7517,0.2796,0.3891,1062,0.31
+2Q ahead,Random Forest,Ukraine,0.7164,0.2063,0.3909,1855,0.272
+2Q ahead,Xgboost,COVID,0.7466,0.2553,0.4012,1062,0.31
+2Q ahead,Xgboost,Ukraine,0.7415,0.2044,0.3532,1855,0.272
+2Q ahead,Lightgbm,COVID,0.7608,0.2918,0.4103,1062,0.31
+2Q ahead,Lightgbm,Ukraine,0.7578,0.1806,0.381,1855,0.272
+4Q ahead,Logistic Regression,COVID,0.7813,0.287,0.4126,1058,0.422
+4Q ahead,Logistic Regression,Ukraine,0.6656,0.1891,0.384,1589,0.323
+4Q ahead,Random Forest,COVID,0.7704,0.3094,0.3879,1058,0.422
+4Q ahead,Random Forest,Ukraine,0.7031,0.2339,0.4503,1589,0.323
+4Q ahead,Xgboost,COVID,0.7591,0.2265,0.3229,1058,0.422
+4Q ahead,Xgboost,Ukraine,0.7313,0.2164,0.425,1589,0.323
+4Q ahead,Lightgbm,COVID,0.7538,0.1502,0.2937,1058,0.422
+4Q ahead,Lightgbm,Ukraine,0.7385,0.1754,0.3626,1589,0.323

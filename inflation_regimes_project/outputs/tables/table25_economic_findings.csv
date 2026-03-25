@@ -1,0 +1,4 @@
+Finding,Description,Policy implication
+Oil price asymmetry,"Oil price rise: SHAP=-0.0540 for importers, -0.0525 for exporters",Energy importers face transition risk from oil shocks; exporters may be buffered
+Fiscal threshold effect,Transition risk increases non-linearly above debt/GDP thresholds,Supports non-linear fiscal vulnerability assessment (Reinhart-Rogoff)
+Debt composition interaction,Countries with same debt/GDP but different composition face different transition risks,Debt sustainability analysis should account for FX share and maturity structure

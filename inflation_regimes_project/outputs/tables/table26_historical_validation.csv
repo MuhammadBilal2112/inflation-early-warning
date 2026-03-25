@@ -1,0 +1,45 @@
+Episode,Country,Country Name,Out of Sample,Pre-crisis Regime,Crisis Regime,Transitioned Up,Max P(trans) Before,Early Warning,Lead Time
+Turkey Lira Crisis 2018,TUR,Turkey,True,R1: Low-energy,R3: Mod-energy,True,0.3939000070095062,True,4.1 quarters before crisis
+Argentina Peso Crisis 2018,ARG,Argentina,True,N/A,R5: Crisis,False,,,No data
+Lebanon Collapse 2019-21,LBN,Lebanon,True,R1: Low-energy,R5: Crisis,True,0.4580000042915344,True,3.0 quarters before crisis
+COVID Global Shock 2020,USA,United States,True,R1: Low-energy,R2: Moderate,True,0.4580000042915344,True,3.1 quarters before crisis
+COVID Global Shock 2020,GBR,United Kingdom,True,R2: Moderate,R1: Low-energy,False,0.289900004863739,True,2.0 quarters before crisis
+COVID Global Shock 2020,BRA,Brazil,True,R1: Low-energy,R3: Mod-energy,True,0.41690000891685486,True,3.1 quarters before crisis
+COVID Global Shock 2020,IND,India,True,R1: Low-energy,R0: Low,False,0.3939000070095062,True,1.0 quarters before crisis
+COVID Global Shock 2020,ZAF,South Africa,True,R2: Moderate,R1: Low-energy,False,0.289900004863739,True,3.1 quarters before crisis
+Ukraine Energy Shock 2022,DEU,Germany,True,R2: Moderate,R3: Mod-energy,True,0.13500000536441803,False,No warning
+Ukraine Energy Shock 2022,GBR,United Kingdom,True,R2: Moderate,R4: Elevated,True,0.3472000062465668,True,2.7 quarters before crisis
+Ukraine Energy Shock 2022,POL,Poland,True,R2: Moderate,R3: Mod-energy,True,0.4580000042915344,True,2.7 quarters before crisis
+Ukraine Energy Shock 2022,CZE,Czech Republic,True,R3: Mod-energy,R3: Mod-energy,False,0.17139999568462372,False,No warning
+Ukraine Energy Shock 2022,HUN,Hungary,True,R2: Moderate,R3: Mod-energy,True,0.289900004863739,True,2.7 quarters before crisis
+Sri Lanka Default 2022,LKA,Sri Lanka,True,R1: Low-energy,R5: Crisis,True,0.4580000042915344,True,5.1 quarters before crisis
+Egypt Devaluation 2023,EGY,"Egypt, Arab Rep.",True,R3: Mod-energy,R5: Crisis,True,0.289900004863739,True,4.1 quarters before crisis
+Nigeria Naira Crisis 2023,NGA,Nigeria,True,R3: Mod-energy,R3: Mod-energy,False,0.4580000042915344,True,5.7 quarters before crisis
+GFC Commodity Spike 2007-08,USA,United States,False,R2: Moderate,R0: Low,False,0.18330000340938568,False,No warning
+GFC Commodity Spike 2007-08,GBR,United Kingdom,False,R3: Mod-energy,R3: Mod-energy,False,0.4580000042915344,True,4.1 quarters before crisis
+GFC Commodity Spike 2007-08,DEU,Germany,False,R3: Mod-energy,R1: Low-energy,False,0.6395000219345093,True,5.1 quarters before crisis
+GFC Commodity Spike 2007-08,BRA,Brazil,False,R1: Low-energy,R1: Low-energy,False,0.289900004863739,True,3.0 quarters before crisis
+2008 Global Financial Crisis (Great Recession),USA,United States,False,R2: Moderate,R0: Low,False,0.18330000340938568,False,No warning
+2008 Global Financial Crisis (Great Recession),GBR,United Kingdom,False,R3: Mod-energy,R1: Low-energy,False,0.4580000042915344,True,4.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),DEU,Germany,False,R3: Mod-energy,R1: Low-energy,False,0.6395000219345093,True,5.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),FRA,France,False,R2: Moderate,R1: Low-energy,False,0.4580000042915344,True,5.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),JPN,Japan,False,R2: Moderate,R1: Low-energy,False,0.4580000042915344,True,6.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),ESP,Spain,False,R2: Moderate,R2: Moderate,False,0.4580000042915344,True,5.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),ITA,Italy,False,R2: Moderate,R1: Low-energy,False,0.4580000042915344,True,5.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),GRC,Greece,False,R2: Moderate,R0: Low,False,0.4580000042915344,True,5.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),IRL,Ireland,False,R3: Mod-energy,R3: Mod-energy,False,1.0,True,3.7 quarters before crisis
+2008 Global Financial Crisis (Great Recession),ISL,Iceland,False,R3: Mod-energy,R3: Mod-energy,False,0.4580000042915344,True,6.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),BRA,Brazil,False,R1: Low-energy,R1: Low-energy,False,0.289900004863739,True,3.7 quarters before crisis
+2008 Global Financial Crisis (Great Recession),RUS,Russian Federation,False,R3: Mod-energy,R2: Moderate,False,0.4580000042915344,True,6.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),CHN,China,False,R3: Mod-energy,R3: Mod-energy,False,0.3939000070095062,True,6.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),MEX,Mexico,False,R1: Low-energy,R1: Low-energy,False,0.3393000066280365,True,2.7 quarters before crisis
+2008 Global Financial Crisis (Great Recession),KOR,"Korea, Rep.",False,R2: Moderate,R1: Low-energy,False,0.4580000042915344,True,5.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),ZAF,South Africa,False,R3: Mod-energy,R1: Low-energy,False,0.3393000066280365,True,4.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),TUR,Turkey,False,R1: Low-energy,R3: Mod-energy,True,0.3939000070095062,True,4.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),IDN,Indonesia,False,R3: Mod-energy,R3: Mod-energy,False,0.4580000042915344,True,4.8 quarters before crisis
+2008 Global Financial Crisis (Great Recession),NGA,Nigeria,False,R3: Mod-energy,R3: Mod-energy,False,0.4580000042915344,True,3.7 quarters before crisis
+2014-16 Oil Price Collapse,SAU,Saudi Arabia,False,R1: Low-energy,R1: Low-energy,False,0.289900004863739,True,2.0 quarters before crisis
+2014-16 Oil Price Collapse,RUS,Russian Federation,False,R2: Moderate,R3: Mod-energy,True,0.4580000042915344,True,4.1 quarters before crisis
+2014-16 Oil Price Collapse,NGA,Nigeria,False,R1: Low-energy,R1: Low-energy,False,0.22499999403953552,False,No warning
+2014-16 Oil Price Collapse,NOR,Norway,False,R2: Moderate,R1: Low-energy,False,0.289900004863739,True,4.1 quarters before crisis
+2014-16 Oil Price Collapse,CAN,Canada,False,R2: Moderate,R1: Low-energy,False,0.3939000070095062,True,6.1 quarters before crisis

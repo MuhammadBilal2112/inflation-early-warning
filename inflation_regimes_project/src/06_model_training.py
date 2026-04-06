@@ -261,6 +261,7 @@ print("=" * 70)
 exclude_cols = {'country_code', 'country_name', 'quarter', 'date', 'year',
                 'split', 'is_test', 'country_group', 'income_group', 'region',
                 'target_up_1q', 'target_up_2q', 'target_up_4q',
+                'target_crisis_entry_1q', 'target_crisis_entry_2q', 'target_crisis_entry_4q',
                 'regime_future_1q', 'regime_future_2q', 'regime_future_4q'}
 
 feature_cols = [c for c in df.columns if c not in exclude_cols]
@@ -679,6 +680,86 @@ ew_df.to_csv(os.path.join(TDIR, 'table14_expanding_window.csv'), index=False)
 print(f"\n  Mean expanding-window AUC: {ew_df['AUC-ROC'].mean():.3f}")
 print(f"  Std: {ew_df['AUC-ROC'].std():.3f}")
 print(f"  Expanding window validation complete.")
+
+
+# ============================================================
+# PART 7b: TARGET SENSITIVITY ANALYSIS
+# ============================================================
+# Tests whether results hold under a stricter target definition:
+# "entry into elevated/crisis regime (R4 or R5)" rather than
+# "any upward regime transition". Addresses the ordinal assumption
+# embedded in the primary target (target_up_2q).
+# Same XGBoost params and train/val/test split — only target changes.
+print("\n" + "=" * 70)
+print("PART 7b: TARGET SENSITIVITY — Crisis Entry vs Any Upward Transition")
+print("=" * 70)
+
+alt_target = 'target_crisis_entry_2q'
+
+if alt_target in df.columns:
+    def get_alt_split(tcol, sname):
+        m = df['split'] == sname
+        s = df[m].dropna(subset=[tcol])
+        return s[feature_cols].copy(), s[tcol].values
+
+    Xtr_s, ytr_s = get_alt_split(alt_target, 'train')
+    print(f"  Alternative target: entry into R4/R5 from R0-R3")
+    print(f"  Train: {len(ytr_s):,} obs, {ytr_s.mean()*100:.1f}% positive "
+          f"(vs {splits['2Q ahead']['train'][1].mean()*100:.1f}% for primary target)")
+
+    imp_s = SimpleImputer(strategy='median')
+    Xtr_s_imp = pd.DataFrame(imp_s.fit_transform(Xtr_s), columns=feature_cols, index=Xtr_s.index)
+
+    spw_s = (1 - ytr_s.mean()) / ytr_s.mean()
+    xgb_params_s = {**xgb_best_params, 'scale_pos_weight': spw_s}
+    mdl_s = xgb.XGBClassifier(**xgb_params_s)
+    mdl_s.fit(Xtr_s_imp, ytr_s)
+
+    print(f"\n  {'Period':30s} {'Primary AUC':>12s} {'Crisis-entry AUC':>18s} {'Δ AUC':>8s}")
+    print(f"  {'-'*72}")
+    sens_rows = []
+    for pn, sn in eval_periods.items():
+        Xe_s, ye_s = get_alt_split(alt_target, sn)
+        if len(ye_s) == 0 or ye_s.sum() == 0:
+            continue
+        Xe_s_imp = pd.DataFrame(imp_s.transform(Xe_s), columns=feature_cols, index=Xe_s.index)
+        yp_s = mdl_s.predict_proba(Xe_s_imp)[:, 1]
+        try:
+            auc_s = roc_auc_score(ye_s, yp_s)
+        except:
+            auc_s = np.nan
+
+        # Primary AUC for same period (XGBoost, 2Q ahead)
+        primary_key = f"XGBoost_2Q ahead_{pn}"
+        if primary_key in all_probs:
+            ye_p, yp_p, _ = all_probs[primary_key]
+            try: auc_p = roc_auc_score(ye_p, yp_p)
+            except: auc_p = np.nan
+        else:
+            auc_p = np.nan
+
+        delta = auc_s - auc_p if not np.isnan(auc_s) and not np.isnan(auc_p) else np.nan
+        print(f"  {pn:30s} {auc_p:>12.3f} {auc_s:>18.3f} {delta:>+8.3f}")
+        sens_rows.append({
+            'Period': pn,
+            'Primary target': 'target_up_2q',
+            'Alternative target': alt_target,
+            'Primary AUC': round(auc_p, 4) if not np.isnan(auc_p) else None,
+            'Crisis-entry AUC': round(auc_s, 4) if not np.isnan(auc_s) else None,
+            'Delta AUC': round(delta, 4) if not np.isnan(delta) else None,
+            'N (alt)': len(ye_s),
+            'Positive Rate (alt)': round(ye_s.mean(), 3),
+        })
+
+    sens_df = pd.DataFrame(sens_rows)
+    sens_df.to_csv(os.path.join(TDIR, 'table09b_target_sensitivity.csv'), index=False)
+    print(f"\n  Saved: table09b_target_sensitivity.csv")
+    if all(abs(r) < 0.05 for r in sens_df['Delta AUC'].dropna()):
+        print("  Results are robust to target definition (|ΔAUC| < 0.05 across all periods).")
+    else:
+        print("  Note: AUC differs >0.05 in at least one period — review table09b.")
+else:
+    print(f"  Skipped: {alt_target} not found in dataset. Re-run Step 5 first.")
 
 
 # ============================================================

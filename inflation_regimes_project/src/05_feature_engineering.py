@@ -74,16 +74,28 @@ for label, h in horizons.items():
     mask = regime[f'regime_future_{label}'].isna()
     regime.loc[mask, f'target_up_{label}'] = np.nan
 
+# Alternative target: entry into elevated/crisis regimes (R4 or R5) specifically.
+# Only fires when the country starts from a non-elevated state (R0-R3).
+# Tests whether the ordinal assumption (any upward move = positive)
+# matters for the model — if AUC is similar, the assumption is robust.
+for label, h in horizons.items():
+    future_col = f'regime_future_{label}'
+    regime[f'target_crisis_entry_{label}'] = np.where(
+        regime[future_col].isna(), np.nan,
+        ((regime['regime'] <= 3) & (regime[future_col] >= 4)).astype(float)
+    )
+
 # Print target statistics
 print("\n  Target variable statistics:")
-print(f"  {'Target':<20s} {'Positive rate':>15s} {'N valid':>10s} {'N positive':>10s}")
-print(f"  {'-'*55}")
+print(f"  {'Target':<28s} {'Positive rate':>15s} {'N valid':>10s} {'N positive':>10s}")
+print(f"  {'-'*63}")
 for label in horizons:
-    col = f'target_up_{label}'
-    valid = regime[col].dropna()
-    pos_rate = valid.mean() * 100
-    n_pos = int(valid.sum())
-    print(f"  {col:<20s} {pos_rate:>14.1f}% {len(valid):>10,} {n_pos:>10,}")
+    for prefix in ['target_up', 'target_crisis_entry']:
+        col = f'{prefix}_{label}'
+        valid = regime[col].dropna()
+        pos_rate = valid.mean() * 100
+        n_pos = int(valid.sum())
+        print(f"  {col:<28s} {pos_rate:>14.1f}% {len(valid):>10,} {n_pos:>10,}")
 
 
 # ============================================================
@@ -322,6 +334,7 @@ print("=" * 60)
 
 # Categorise all features
 target_cols = ['target_up_1q', 'target_up_2q', 'target_up_4q',
+               'target_crisis_entry_1q', 'target_crisis_entry_2q', 'target_crisis_entry_4q',
                'regime_future_1q', 'regime_future_2q', 'regime_future_4q']
 id_cols = ['country_code', 'country_name', 'quarter', 'date', 'year', 'split', 'is_test',
            'country_group', 'income_group', 'region']
@@ -439,10 +452,13 @@ FEATURES: {len(feature_list)} predictor variables
   Regime state:         {len(regime_features):3d}  (current regime + GMM probabilities)
   Note: *_dm features are country-demeaned (train-mean subtracted per country)
 
-TARGET VARIABLES: 3 binary targets
-  target_up_1q:  Upward regime transition within 1 quarter ({dataset['target_up_1q'].mean()*100:.1f}% positive)
-  target_up_2q:  Upward regime transition within 2 quarters ({dataset['target_up_2q'].mean()*100:.1f}% positive)
-  target_up_4q:  Upward regime transition within 4 quarters ({dataset['target_up_4q'].mean()*100:.1f}% positive)
+TARGET VARIABLES: 3 primary + 3 sensitivity targets
+  target_up_1q:           Any upward transition, 1Q  ({dataset['target_up_1q'].mean()*100:.1f}% positive)
+  target_up_2q:           Any upward transition, 2Q  ({dataset['target_up_2q'].mean()*100:.1f}% positive)
+  target_up_4q:           Any upward transition, 4Q  ({dataset['target_up_4q'].mean()*100:.1f}% positive)
+  target_crisis_entry_1q: Entry into R4/R5, 1Q       ({dataset['target_crisis_entry_1q'].mean()*100:.1f}% positive)
+  target_crisis_entry_2q: Entry into R4/R5, 2Q       ({dataset['target_crisis_entry_2q'].mean()*100:.1f}% positive)
+  target_crisis_entry_4q: Entry into R4/R5, 4Q       ({dataset['target_crisis_entry_4q'].mean()*100:.1f}% positive)
 
 TIME-BASED SPLITS (no data leakage):
   Train:          {(dataset['split']=='train').sum():,} obs  (2000-2014)

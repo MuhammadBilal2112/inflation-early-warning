@@ -438,9 +438,10 @@ for hn, tc in targets.items():
                 Xe_use = Xe_raw
             
             yp = mdl.predict_proba(Xe_use)[:, 1]
-            
-            # Store for bootstrap CI
-            all_probs[f"{mn}_{hn}_{pn}"] = (ye, yp)
+
+            # Store predictions + country IDs for block bootstrap
+            cc_ids = df.loc[Xe_raw.index, 'country_code'].values
+            all_probs[f"{mn}_{hn}_{pn}"] = (ye, yp, cc_ids)
             
             # Compute all metrics including BRIER SCORE (FIX 5)
             try: auc = roc_auc_score(ye, yp)
@@ -488,17 +489,27 @@ rdf = pd.DataFrame(all_results)
 # PART 6: BOOTSTRAP CONFIDENCE INTERVALS (FIX 3)
 # ============================================================
 print("\n" + "=" * 70)
-print("PART 6: BOOTSTRAP CONFIDENCE INTERVALS (1000 samples)")
+print("PART 6: BLOCK BOOTSTRAP CONFIDENCE INTERVALS (country-level, 1000 samples)")
 print("=" * 70)
 
-def bootstrap_auc_ci(y_true, y_prob, n_boot=1000, alpha=0.05):
-    """Compute bootstrap CI for AUC-ROC."""
+def block_bootstrap_auc_ci(y_true, y_prob, country_ids, n_boot=1000, alpha=0.05):
+    """Bootstrap CI resampling by country block.
+
+    Observations within the same country are correlated (inflation
+    persistence, shared shocks). Resampling individual rows understates
+    uncertainty. This function resamples countries with replacement so
+    that all observations from a drawn country enter the bootstrap
+    sample together, giving honest CIs under within-country dependence.
+    """
     rng = np.random.RandomState(42)
+    countries = np.unique(country_ids)
+    # Pre-build index lookup to avoid repeated np.where calls
+    country_idx = {c: np.where(country_ids == c)[0] for c in countries}
     aucs = []
-    n = len(y_true)
     for _ in range(n_boot):
-        idx = rng.randint(0, n, n)
-        if y_true[idx].sum() == 0 or y_true[idx].sum() == n:
+        sampled = rng.choice(countries, size=len(countries), replace=True)
+        idx = np.concatenate([country_idx[c] for c in sampled])
+        if y_true[idx].sum() == 0 or y_true[idx].sum() == len(idx):
             continue
         try:
             aucs.append(roc_auc_score(y_true[idx], y_prob[idx]))
@@ -509,14 +520,16 @@ def bootstrap_auc_ci(y_true, y_prob, n_boot=1000, alpha=0.05):
     hi = np.percentile(aucs, 100 * (1 - alpha / 2))
     return np.mean(aucs), lo, hi
 
-def bootstrap_auc_difference_test(y_true, y_prob_a, y_prob_b, n_boot=1000):
-    """Test if AUC difference is significant (bootstrap version of DeLong)."""
+def block_bootstrap_auc_difference_test(y_true, y_prob_a, y_prob_b, country_ids, n_boot=1000):
+    """AUC difference significance test using country-level block bootstrap."""
     rng = np.random.RandomState(42)
+    countries = np.unique(country_ids)
+    country_idx = {c: np.where(country_ids == c)[0] for c in countries}
     diffs = []
-    n = len(y_true)
     for _ in range(n_boot):
-        idx = rng.randint(0, n, n)
-        if y_true[idx].sum() == 0 or y_true[idx].sum() == n:
+        sampled = rng.choice(countries, size=len(countries), replace=True)
+        idx = np.concatenate([country_idx[c] for c in sampled])
+        if y_true[idx].sum() == 0 or y_true[idx].sum() == len(idx):
             continue
         try:
             auc_a = roc_auc_score(y_true[idx], y_prob_a[idx])
@@ -535,14 +548,15 @@ for hn in targets:
     for mn in models_cfg:
         key = f"{mn}_{hn}_Test: Ukraine (2021+)"
         if key in all_probs:
-            ye, yp = all_probs[key]
-            mean_auc, lo, hi = bootstrap_auc_ci(ye, yp)
+            ye, yp, cc_ids = all_probs[key]
+            mean_auc, lo, hi = block_bootstrap_auc_ci(ye, yp, cc_ids)
             ci_results.append({
                 'Horizon': hn, 'Model': mn,
                 'AUC-ROC': round(mean_auc, 4),
                 'CI Lower (95%)': round(lo, 4),
                 'CI Upper (95%)': round(hi, 4),
                 'CI Width': round(hi - lo, 4),
+                'Bootstrap': 'block (by country)',
             })
             print(f"    {mn:22s}: AUC={mean_auc:.3f} [{lo:.3f}, {hi:.3f}]")
 
@@ -561,11 +575,10 @@ for hn in targets:
     key_lr = f"Logistic Regression_{hn}_Test: Ukraine (2021+)"
     
     if key_best in all_probs and key_lr in all_probs:
-        ye = all_probs[key_best][0]
-        yp_best = all_probs[key_best][1]
-        yp_lr = all_probs[key_lr][1]
-        
-        mean_diff, lo_diff, hi_diff, p_val = bootstrap_auc_difference_test(ye, yp_best, yp_lr)
+        ye, yp_best, cc_ids = all_probs[key_best]
+        _, yp_lr, _ = all_probs[key_lr]
+
+        mean_diff, lo_diff, hi_diff, p_val = block_bootstrap_auc_difference_test(ye, yp_best, yp_lr, cc_ids)
         sig = "***" if p_val < 0.01 else ("**" if p_val < 0.05 else ("*" if p_val < 0.1 else "ns"))
         
         sig_results.append({

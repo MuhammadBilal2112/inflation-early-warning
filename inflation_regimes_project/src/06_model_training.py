@@ -400,12 +400,30 @@ for hn, tc in targets.items():
         mdl = cfg['cls'](**cfg['p'])
         mdl.fit(Xtr_use, ytr)
         print(f" done ({time.time()-t1:.1f}s)")
-        
+
         if hasattr(mdl, 'feature_importances_'):
             all_imp[f"{mn}_{hn}"] = dict(zip(feature_cols, mdl.feature_importances_))
         elif hasattr(mdl, 'coef_'):
             all_imp[f"{mn}_{hn}"] = dict(zip(feature_cols, np.abs(mdl.coef_[0])))
-        
+
+        # Find best threshold on VALIDATION SET only — freeze it for all test periods
+        Xv_raw, yv = splits[hn]['Validation (2015-18)']
+        if cfg['sc']:
+            Xv_i = pd.DataFrame(imp.transform(Xv_raw), columns=feature_cols, index=Xv_raw.index)
+            Xv_use = pd.DataFrame(sc.transform(Xv_i), columns=feature_cols, index=Xv_raw.index)
+        elif cfg['imp']:
+            Xv_use = pd.DataFrame(imp.transform(Xv_raw), columns=feature_cols, index=Xv_raw.index)
+        else:
+            Xv_use = Xv_raw
+        yv_prob = mdl.predict_proba(Xv_use)[:, 1]
+        best_thresh, best_thresh_f1 = 0.5, 0.0
+        if len(yv) > 0 and yv.sum() > 0:
+            for t in np.arange(0.05, 0.75, 0.05):
+                ft = f1_score(yv, (yv_prob >= t).astype(int), zero_division=0)
+                if ft > best_thresh_f1:
+                    best_thresh_f1, best_thresh = ft, t
+        print(f"    Threshold tuned on validation: {best_thresh:.2f} (val F1={best_thresh_f1:.3f})")
+
         for pn, sn in eval_periods.items():
             Xe_raw, ye = splits[hn][pn]
             if len(ye) == 0 or ye.sum() == 0:
@@ -432,23 +450,18 @@ for hn, tc in targets.items():
             
             brier = brier_score_loss(ye, yp)
 
-            # Extended threshold search (0.05–0.70)
-            bf1 = 0; bt = 0.5
-            for t in np.arange(0.05, 0.75, 0.05):  # EXTENDED range
-                ft = f1_score(ye, (yp >= t).astype(int), zero_division=0)
-                if ft > bf1:
-                    bf1 = ft; bt = t
-            
+            # Apply validation-tuned threshold (same for all periods — no per-period search)
+            bf1 = f1_score(ye, (yp >= best_thresh).astype(int), zero_division=0)
             ypred = (yp >= 0.5).astype(int)
             f1v = f1_score(ye, ypred, zero_division=0)
             acc = accuracy_score(ye, ypred)
-            
+
             all_results.append({
                 'Horizon': hn, 'Model': mn, 'Period': pn,
                 'AUC-ROC': round(auc, 4), 'PR-AUC': round(prauc, 4),
                 'Brier': round(brier, 4),
                 'F1 (0.5)': round(f1v, 4), 'Best F1': round(bf1, 4),
-                'Best Threshold': round(bt, 2),
+                'Best Threshold': round(best_thresh, 2),
                 'Accuracy': round(acc, 4),
                 'N': len(ye), 'Positive Rate': round(ye.mean(), 3),
             })

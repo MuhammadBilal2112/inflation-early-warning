@@ -36,6 +36,7 @@ from sklearn.mixture import GaussianMixture
 from sklearn.model_selection import TimeSeriesSplit
 import xgboost as xgb
 import lightgbm as lgb
+from scipy import stats
 
 plt.rcParams.update({'figure.figsize':(12,6),'figure.dpi':150,'font.size':11,
     'font.family':'sans-serif','figure.facecolor':'white','axes.facecolor':'white',
@@ -95,6 +96,42 @@ for i, col in enumerate(gmm_features):
 # Standardise (fit on train only)
 gmm_scaler = StandardScaler()
 X_gmm_train = gmm_scaler.fit_transform(X_gmm_train_raw)
+
+# ---- Normality diagnostic for GMM features ----
+# GMM assumes each component is multivariate Gaussian. We test whether
+# the marginal distributions of the raw (winsorized) features are
+# consistent with normality. Non-normality in the marginals does not
+# automatically invalidate the GMM, but severe departures (|skew| > 2,
+# kurtosis > 7) would favour a t-mixture alternative.
+print(f"\n  GMM feature normality diagnostics (train data, winsorized):")
+print(f"  {'Feature':30s} {'Skew':>7s} {'Kurt':>7s} {'Normal p':>10s}  {'Assessment'}")
+print(f"  {'-'*70}")
+norm_rows = []
+for i, col in enumerate(gmm_features):
+    vals = X_gmm_train_raw[:, i]
+    skew = stats.skew(vals)
+    kurt = stats.kurtosis(vals)          # excess kurtosis (0 = normal)
+    _, p_norm = stats.normaltest(vals)   # D'Agostino-Pearson omnibus test
+    assessment = ('OK' if abs(skew) < 1 and abs(kurt) < 3
+                  else 'MODERATE' if abs(skew) < 2 and abs(kurt) < 7
+                  else 'SEVERE')
+    flag = '' if assessment == 'OK' else (' !' if assessment == 'MODERATE' else ' !!')
+    print(f"  {col:30s} {skew:+7.2f} {kurt:+7.2f} {p_norm:10.4f}  {assessment}{flag}")
+    norm_rows.append({'feature': col, 'skewness': round(skew, 3),
+                      'excess_kurtosis': round(kurt, 3),
+                      'normaltest_p': round(p_norm, 4), 'assessment': assessment})
+
+norm_df = pd.DataFrame(norm_rows)
+norm_df.to_csv(os.path.join(TDIR, 'table06b_gmm_normality_diagnostics.csv'), index=False)
+n_severe = (norm_df['assessment'] == 'SEVERE').sum()
+n_moderate = (norm_df['assessment'] == 'MODERATE').sum()
+print(f"\n  Summary: {(norm_df['assessment']=='OK').sum()} OK, "
+      f"{n_moderate} moderate, {n_severe} severe departures from normality")
+if n_severe == 0:
+    print("  Gaussian mixture components are a reasonable approximation.")
+else:
+    print("  Consider t-mixture as a robustness check for severely non-normal features.")
+print(f"  Saved: table06b_gmm_normality_diagnostics.csv")
 
 # Fit GMM on train data only (use K=6 as discovered in Step 5)
 print(f"\n  Fitting GMM (K=6) on train data only ({len(X_gmm_train):,} obs)...")

@@ -265,6 +265,43 @@ dataset.loc[dataset['date'].dt.year >= 2021, 'split'] = 'test_ukraine'
 # Also mark a "full_test" that combines both test periods
 dataset['is_test'] = dataset['split'].isin(['test_covid', 'test_ukraine']).astype(int)
 
+
+# ============================================================
+# Country-demeaned features (within-country fixed effects)
+# ============================================================
+# Subtract each country's TRAIN-period mean from key inflation features.
+# This removes time-invariant country baselines (e.g. Turkey having
+# structurally higher inflation than Germany) so the model learns
+# deviations from each country's norm, not country-level averages.
+# Train-period means are computed on pre-2015 data only, then applied
+# to all periods to avoid leakage from validation/test.
+
+print("\n  Adding country-demeaned features (within-country FE)...")
+
+demean_cols = [c for c in [
+    'hcpi_yoy', 'fcpi_yoy', 'ecpi_yoy',
+    'hcpi_yoy_lag1', 'hcpi_yoy_lag2',
+    'fcpi_yoy_lag1', 'ecpi_yoy_lag1',
+    'hcpi_yoy_2q_change', 'hcpi_12m_vol',
+    'component_disp_m',
+] if c in dataset.columns]
+
+# Country means computed on TRAIN set only
+train_means = (
+    dataset[dataset['split'] == 'train']
+    .groupby('country_code')[demean_cols]
+    .mean()
+    .rename(columns={c: f'_cm_{c}' for c in demean_cols})
+)
+dataset = dataset.merge(train_means, on='country_code', how='left')
+
+for col in demean_cols:
+    dataset[f'{col}_dm'] = dataset[col] - dataset[f'_cm_{col}']
+
+dataset.drop(columns=[f'_cm_{c}' for c in demean_cols], inplace=True)
+print(f"  Added {len(demean_cols)} country-demeaned features")
+
+
 print("\n  Split distribution:")
 split_stats = dataset.groupby('split').agg(
     n_obs=('country_code', 'size'),
@@ -395,11 +432,12 @@ DATASET: {output_path}
   Total columns: {dataset.shape[1]}
 
 FEATURES: {len(feature_list)} predictor variables
-  Inflation features:   {len(inflation_features):3d}  (levels, lags, momentum, volatility, gaps)
+  Inflation features:   {len(inflation_features):3d}  (levels, lags, momentum, volatility, gaps, demeaned)
   Commodity features:   {len(commodity_features):3d}  (prices, changes, volatility)
   Fiscal features:      {len(fiscal_features):3d}  (debt, balance, external debt, rating)
   Country features:     {len(country_features):3d}  (AE/EMDE, income, region dummies)
   Regime state:         {len(regime_features):3d}  (current regime + GMM probabilities)
+  Note: *_dm features are country-demeaned (train-mean subtracted per country)
 
 TARGET VARIABLES: 3 binary targets
   target_up_1q:  Upward regime transition within 1 quarter ({dataset['target_up_1q'].mean()*100:.1f}% positive)
